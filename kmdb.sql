@@ -68,10 +68,30 @@
 
 -- Drop existing tables, so you'll start fresh each time this script is run.
 -- TODO!
+-- - Movie data includes the movie title, year released, MPAA rating,
+--   and director
+-- - A movie has a single director
+-- - A person can be the director of and/or play a role in a movie
+
+DROP TABLE IF EXISTS movies;
+DROP TABLE IF EXISTS casts;
 
 -- Create new tables, according to your domain model
 -- TODO!
 
+CREATE TABLE movies (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    title TEXT,
+    release_year INTEGER,
+    rating FLOAT,
+    director TEXT
+)
+
+CREATE TABLE casts (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    actor TEXT,
+    director TEXT
+)
 -- Insert data into your database that reflects the sample data shown above
 -- Use hard-coded foreign key IDs when necessary
 -- TODO!

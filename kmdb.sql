@@ -93,6 +93,11 @@ CREATE TABLE actors (
     character TEXT,
     movie_id INTEGER
 );
+
+--CREATE TABLE characters (
+--    id INTEGER PRIMARY KEY AUTOINCREMENT,
+--    character
+--)
 -- Insert data into your database that reflects the sample data shown above
 -- Use hard-coded foreign key IDs when necessary
 -- TODO!
@@ -128,7 +133,7 @@ INSERT INTO actors(
 (
     "",
     ""
-)
+);
 -- Prints a header for the movies output
 .print "Movies"
 .print "======"

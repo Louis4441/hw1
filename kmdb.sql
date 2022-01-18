@@ -64,7 +64,7 @@
 
 -- Turns column mode on but headers off
 .mode column
-.headers off
+.headers on
 
 -- Drop existing tables, so you'll start fresh each time this script is run.
 -- TODO!
@@ -74,7 +74,7 @@
 -- - A person can be the director of and/or play a role in a movie
 
 DROP TABLE IF EXISTS movies;
-DROP TABLE IF EXISTS casts;
+DROP TABLE IF EXISTS actors;
 
 -- Create new tables, according to your domain model
 -- TODO!
@@ -83,19 +83,52 @@ CREATE TABLE movies (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     title TEXT,
     release_year INTEGER,
-    rating FLOAT,
+    age_rating TEXT,
     director TEXT
-)
+);
 
-CREATE TABLE casts (
+CREATE TABLE actors (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    actor TEXT,
-    director TEXT
-)
+    full_name TEXT,
+    character TEXT,
+    movie_id INTEGER
+);
 -- Insert data into your database that reflects the sample data shown above
 -- Use hard-coded foreign key IDs when necessary
 -- TODO!
+INSERT INTO movies (
+    title,
+    release_year,
+    age_rating,
+    director
+)
+VALUES (
+    "Batman Begins",
+    2005,
+    "PG-13",
+    "Christopher Nolan"
+),
+(
+    "The Dark Knight",
+    2008,
+    "PG-13",
+    "Christopher Nolan"
+),
+(
+    "The Dark Knight Rises",
+    2012,
+    "PG-13",
+    "Christopher Nolan"
+);
 
+INSERT INTO actors(
+    full_name,
+    character
+)
+(
+    "",
+    ""
+)
 -- Prints a header for the movies output
 .print "Movies"
 .print "======"
@@ -103,6 +136,9 @@ CREATE TABLE casts (
 
 -- The SQL statement for the movies output
 -- TODO!
+SELECT title, release_year, age_rating, director
+FROM movies;
+-- 
 
 -- Prints a header for the cast output
 .print ""
@@ -113,3 +149,5 @@ CREATE TABLE casts (
 
 -- The SQL statement for the cast output
 -- TODO!
+-- SELECT movie
+-- FROM movies

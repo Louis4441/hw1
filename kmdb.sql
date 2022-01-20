@@ -182,7 +182,7 @@ INSERT INTO roles (movie_id, actor_id, character_id)
 
 -- The SQL statement for the movies output
 -- TODO!
-SELECT id, title, release_year, age_rating, director
+SELECT title, release_year, age_rating, director
 FROM movies;
 -- 
 

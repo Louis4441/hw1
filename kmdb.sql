@@ -64,7 +64,7 @@
 
 -- Turns column mode on but headers off
 .mode column
-.headers on
+.headers off
 
 -- Drop existing tables, so you'll start fresh each time this script is run.
 -- TODO!
@@ -74,7 +74,9 @@
 -- - A person can be the director of and/or play a role in a movie
 
 DROP TABLE IF EXISTS movies;
-DROP TABLE IF EXISTS actors;
+DROP TABLE IF EXISTS characters;
+DROP TABLE IF EXISTS actors; 
+DROP TABLE IF EXISTS roles;
 
 -- Create new tables, according to your domain model
 -- TODO!
@@ -87,11 +89,27 @@ CREATE TABLE movies (
     director TEXT
 );
 
+CREATE TABLE characters (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    character TEXT
+);
+
 CREATE TABLE actors (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    full_name TEXT,
-    character TEXT,
-    movie_id INTEGER
+    full_name TEXT
+);
+
+CREATE TABLE roles (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    movie_id INTEGER,
+    character_id INTEGER,
+    actor_id INTEGER,
+    FOREIGN KEY (movie_id)
+      REFERENCES movies(id),
+    FOREIGN KEY (character_id)
+      REFERENCES characters(id),
+    FOREIGN KEY (actor_id)
+      REFERENCES actors(id)
 );
 
 --CREATE TABLE characters (
@@ -102,38 +120,61 @@ CREATE TABLE actors (
 -- Use hard-coded foreign key IDs when necessary
 -- TODO!
 INSERT INTO movies (
-    title,
-    release_year,
-    age_rating,
-    director
-)
-VALUES (
-    "Batman Begins",
-    2005,
-    "PG-13",
-    "Christopher Nolan"
-),
-(
-    "The Dark Knight",
-    2008,
-    "PG-13",
-    "Christopher Nolan"
-),
-(
-    "The Dark Knight Rises",
-    2012,
-    "PG-13",
-    "Christopher Nolan"
-);
+    title, release_year, age_rating, director)
+    VALUES (
+        "Batman Begins", 2005, "PG-13", "Christopher Nolan"), --1
+        ("The Dark Knight", 2008, "PG-13", "Christopher Nolan"), --2
+        ("The Dark Knight Rises", 2012, "PG-13", "Christopher Nolan"
+        ); --3
 
-INSERT INTO actors(
-    full_name,
-    character
-)
-(
-    "",
-    ""
-);
+INSERT INTO characters (character)
+    VALUES (
+        "Bruce Wayne"), --1
+        ("Alfred"), --2
+        ("Ra's Al Ghul"), --3
+        ("Rachel Dawes"), --4
+        ("Commissioner Gordon"), --5
+        ("Joker"), --6
+        ("Harvey Dent"), --7
+        ("Bane"), --8
+        ("John Blake"), --9
+        ("Selina Kyle"
+        ); --10
+
+INSERT INTO actors (full_name)
+    VALUES (
+        "Christian Bale"), --1
+        ("Michael Caine"), --2
+        ("Liam Neeson"), --3
+        ("Katie Holmes"), --4
+        ("Maggie Gyllenhaal"), --5
+        ("Gary Oldman"), --6
+        ("Heath Ledger"), --7
+        ("Aaron Eckhart"), --8
+        ("Tom Hardy"), --9
+        ("Joseph Gordon-Levitt"), --10
+        ("Anne Hathaway"
+        ); --11
+
+INSERT INTO roles (movie_id, actor_id, character_id)
+    VALUES (
+        1, 1, 1),
+        (1, 2, 2),
+        (1, 3, 3),
+        (1, 4, 4),
+        (1, 6, 5),
+        (2, 1, 1),
+        (2, 7, 6),
+        (2, 8, 7),
+        (2, 2, 2),
+        (2, 5, 4),
+        (3, 1, 1),
+        (3, 6, 5),
+        (3, 9, 8),
+        (3, 10, 9),
+        (3, 11, 10
+    );
+
 -- Prints a header for the movies output
 .print "Movies"
 .print "======"
@@ -141,7 +182,7 @@ INSERT INTO actors(
 
 -- The SQL statement for the movies output
 -- TODO!
-SELECT title, release_year, age_rating, director
+SELECT id, title, release_year, age_rating, director
 FROM movies;
 -- 
 
@@ -154,5 +195,9 @@ FROM movies;
 
 -- The SQL statement for the cast output
 -- TODO!
--- SELECT movie
--- FROM movies
+SELECT movies.title, actors.full_name, characters.character
+FROM roles
+    INNER JOIN movies ON movies.id = roles.movie_id
+    INNER JOIN actors ON actors.id = roles.actor_id 
+    INNER JOIN characters ON characters.id = character_id;
+    
